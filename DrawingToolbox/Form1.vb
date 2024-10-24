@@ -6,27 +6,10 @@ Public Class DrawingToolbox
 
     Public swFactory As Factories.SWFactory
     Public swApp As SldWorks
+    Public swVault As New EdmVault5
     Private PunchIDDesc As PunchIDDesc
     Private FindPartNo As FindPartNo
     Private swError As Integer
-    Private macroRootPath As String
-    Private macroModelNonFlat As String, moduleModelNonFlat As String, procedureModelNonFlat As String
-    Private macroModelFlat As String, moduleModelFlat As String, procedureModelFlat As String
-    Private macroNonFlatModelItem As String, moduleNonFlatModelItem As String, procedureNonFlatModelItem As String
-    Private macroNonFlatBOMTable As String, moduleNonFlatBOMTable As String, procedureNonFlatBOMTable As String
-    Private macroNonFlatBOMTableFormat As String, moduleNonFlatBOMTableFormat As String, procedureNonFlatBOMTableFormat As String
-    Private macroNonFlatAutoBalloon As String, moduleNonFlatAutoBalloon As String, procedureNonFlatAutoBalloon As String
-    Private macroNonFlatRevTable As String, moduleNonFlatRevTable As String, procedureNonFlatRevTable As String
-    Private macroNonFlatRevTableFormat As String, moduleNonFlatRevTableFormat As String, procedureNonFlatRevTableFormat As String
-    Private macroNonFlatReloadSheetFormat As String, moduleNonFlatReloadSheetFormat As String, procedureNonFlatReloadSheetFormat As String
-    Private macroNonFlatPDF As String, moduleNonFlatPDF As String, procedureNonFlatPDF As String
-    Private macroFlatPunchTable As String, moduleFlatPunchTable As String, procedureFlatPunchTable As String
-    Private macroFlatPunchTableFormat As String, moduleFlatPunchTableFormat As String, procedureFlatPunchTableFormat As String
-    Private macroFlatOrdDim As String, moduleFlatOrdDim As String, procedureFlatOrdDim As String
-    Private macroFlatRevTable As String, moduleFlatRevTable As String, procedureFlatRevTable As String
-    Private macroFlatRevTableFormat As String, moduleFlatRevTableFormat As String, procedureFlatRevTableFormat As String
-    Private macroFlatReloadSheetFormat As String, moduleFlatReloadSheetFormat As String, procedureFlatReloadSheetFormat As String
-    Private macroFlatPDF As String, moduleFlatPDF As String, procedureFlatPDF As String
 
     Private Sub btnSelectAll1_Click(sender As Object, e As EventArgs) Handles btnSelectAll1.Click
         If chNonFlatModelItem.Checked = False And chNonFlatBOMTable.Checked = False And chNonFlatAutoBalloon.Checked = False And chNonFlatRevTable.Checked = False And chNonFlatReloadSheetFormat.Checked = False And chNonFlatPDF.Checked = False Then
@@ -46,8 +29,8 @@ Public Class DrawingToolbox
             chNonFlatReloadSheetFormat.Checked = False
             chNonFlatPDF.Checked = False
         End If
-        chModelCreateNonFlat.Checked = False
-        chModelCreateFlat.Checked = False
+        chCreateNonFlat.Checked = False
+        chCreateFlat.Checked = False
 
         chFlatPunchTable.Checked = False
         chFlatOrdDim.Checked = False
@@ -72,8 +55,8 @@ Public Class DrawingToolbox
             chFlatReloadSheetFormat.Checked = False
             chFlatPDF.Checked = False
         End If
-        chModelCreateNonFlat.Checked = False
-        chModelCreateFlat.Checked = False
+        chCreateNonFlat.Checked = False
+        chCreateFlat.Checked = False
 
         chNonFlatModelItem.Checked = False
         chNonFlatBOMTable.Checked = False
@@ -84,9 +67,9 @@ Public Class DrawingToolbox
 
     End Sub
 
-    Private Sub chModelNonFlat_CheckedChanged(sender As Object, e As EventArgs) Handles chModelCreateNonFlat.CheckedChanged
-        If chModelCreateNonFlat.Checked Then
-            chModelCreateFlat.Checked = False
+    Private Sub chModelNonFlat_CheckedChanged(sender As Object, e As EventArgs) Handles chCreateNonFlat.CheckedChanged
+        If chCreateNonFlat.Checked Then
+            chCreateFlat.Checked = False
 
             chNonFlatModelItem.Checked = False
             chNonFlatBOMTable.Checked = False
@@ -102,9 +85,9 @@ Public Class DrawingToolbox
             chFlatPDF.Checked = False
         End If
     End Sub
-    Private Sub chModelFlat_CheckedChanged(sender As Object, e As EventArgs) Handles chModelCreateFlat.CheckedChanged
-        If chModelCreateFlat.Checked Then
-            chModelCreateNonFlat.Checked = False
+    Private Sub chModelFlat_CheckedChanged(sender As Object, e As EventArgs) Handles chCreateFlat.CheckedChanged
+        If chCreateFlat.Checked Then
+            chCreateNonFlat.Checked = False
 
             chNonFlatModelItem.Checked = False
             chNonFlatBOMTable.Checked = False
@@ -189,143 +172,92 @@ Public Class DrawingToolbox
         tbxStatus.Text = "Running"
         lblDisplayText.Text = ""
 
-        macroRootPath = "C:\PDM_Milbank\SolidWorks Library\Macros\Drawings\"
+        'These are now in the MacroClass.vb
+        'Dim macroRootPath As String = "C:\PDM_Milbank\SolidWorks Library\Macros\Drawings\"
+        'Dim macroProcedure As String = "main"
 
-        macroModelNonFlat = "Create_NonFlat.swp"
-        moduleModelNonFlat = "Create_NonFlat1"
-        procedureModelNonFlat = "main"
-
-        macroNonFlatModelItem = "NonFlat_ModelItems.swp"
-        moduleNonFlatModelItem = "NonFlat_ModelItems1"
-        procedureNonFlatModelItem = "main"
-
-        macroNonFlatBOMTable = "NonFlat_BOMTable.swp"
-        moduleNonFlatBOMTable = "NonFlat_BOMTable1"
-        procedureNonFlatBOMTable = "main"
-
-        macroNonFlatBOMTableFormat = "NonFlat_BOMTableFormat.swp"
-        moduleNonFlatBOMTableFormat = "NonFlat_BOMTableFormat1"
-        procedureNonFlatBOMTableFormat = "main"
-
-        macroNonFlatAutoBalloon = "NonFlat_AutoBalloon.swp"
-        moduleNonFlatAutoBalloon = "NonFlat_AutoBalloon1"
-        procedureNonFlatAutoBalloon = "main"
-
-        macroNonFlatRevTable = "Drw_RevTableUpdate.swp"
-        moduleNonFlatRevTable = "Drw_RevTableUpdate1"
-        procedureNonFlatRevTable = "main"
-
-        macroNonFlatRevTableFormat = "Drw_RevTableFormat.swp"
-        moduleNonFlatRevTableFormat = "Drw_RevTableFormat1"
-        procedureNonFlatRevTableFormat = "main"
-
-        macroNonFlatReloadSheetFormat = "Drw_SheetFormat.swp"
-        moduleNonFlatReloadSheetFormat = "Drw_SheetFormat1"
-        procedureNonFlatReloadSheetFormat = "main"
-
-        macroNonFlatPDF = "Drw_PDF.swp"
-        moduleNonFlatPDF = "Drw_PDF1"
-        procedureNonFlatPDF = "main"
-
-        macroModelFlat = "Create_Flat.swp"
-        moduleModelFlat = "Create_Flat1"
-        procedureModelFlat = "main"
-
-        macroFlatPunchTable = "Flat_PunchTable.swp"
-        moduleFlatPunchTable = "Flat_PunchTable1"
-        procedureFlatPunchTable = "main"
-
-        macroFlatPunchTableFormat = "Flat_PunchTableFormat.swp"
-        moduleFlatPunchTableFormat = "Flat_PunchTableFormat1"
-        procedureFlatPunchTableFormat = "main"
-
-        macroFlatOrdDim = "Flat_OrdinateDims.swp"
-        moduleFlatOrdDim = "Flat_OrdinateDims1"
-        procedureFlatOrdDim = "main"
-
-        macroFlatRevTable = macroNonFlatRevTable
-        moduleFlatRevTable = moduleNonFlatRevTable
-        procedureFlatRevTable = procedureNonFlatRevTable
-
-        macroFlatRevTableFormat = macroNonFlatRevTableFormat
-        moduleFlatRevTableFormat = moduleNonFlatRevTableFormat
-        procedureFlatRevTableFormat = procedureNonFlatRevTableFormat
-
-        macroFlatPDF = macroNonFlatPDF
-        moduleFlatPDF = moduleNonFlatPDF
-        procedureFlatPDF = procedureNonFlatPDF
-
-        macroFlatReloadSheetFormat = macroNonFlatReloadSheetFormat
-        moduleFlatReloadSheetFormat = moduleNonFlatReloadSheetFormat
-        procedureFlatReloadSheetFormat = procedureNonFlatPDF
+        If Not swVault.IsLoggedIn Then swVault.LoginAuto("PDM_Milbank", 0)
+        Dim mCreate_NonFlat As New MacroClass(swVault, "Create_NonFlat.swp", "Create_NonFlat1")
+        Dim mCreate_Flat As New MacroClass(swVault, "Create_Flat.swp", "Create_Flat1")
+        Dim mDrw_PDF As New MacroClass(swVault, "Drw_PDF.swp", "Drw_PDF1")
+        Dim mDrw_RevTableFormat As New MacroClass(swVault, "Drw_RevTableFormat.swp", "Drw_RevTableFormat1")
+        Dim mDrw_RevTableUpdate As New MacroClass(swVault, "Drw_RevTableUpdate.swp", "Drw_RevTableUpdate1")
+        Dim mDrw_SheetFormat As New MacroClass(swVault, "Drw_SheetFormat.swp", "Drw_SheetFormat1")
+        Dim mNonFlat_AutoBalloon As New MacroClass(swVault, "NonFlat_AutoBalloon.swp", "NonFlat_AutoBalloon1")
+        Dim mNonFlat_BOMTable As New MacroClass(swVault, "NonFlat_BOMTable.swp", "NonFlat_BOMTable1")
+        Dim mNonFlat_BOMTableFormat As New MacroClass(swVault, "NonFlat_BOMTableFormat.swp", "NonFlat_BOMTableFormat1")
+        Dim mNonFlat_ModelItems As New MacroClass(swVault, "NonFlat_ModelItems.swp", "NonFlat_ModelItems1")
+        Dim mFlat_OrdinateDims As New MacroClass(swVault, "Flat_OrdinateDims.swp", "Flat_OrdinateDims1")
+        Dim mFlat_PunchTable As New MacroClass(swVault, "Flat_PunchTable.swp", "Flat_PunchTable1")
+        Dim mFlat_PunchTableFormat As New MacroClass(swVault, "Flat_PunchTableFormat.swp", "Flat_PunchTableFormat1")
 
         swFactory = New Factories.SWFactory
         swApp = swFactory.GetSwAppFromExisting()
 
-        If chModelCreateNonFlat.Checked Then
-            swApp.RunMacro2(macroRootPath + macroModelNonFlat, moduleModelNonFlat, procedureModelNonFlat, 1, swError)
-            lblDisplayText.Text = lblDisplayText.Text + chModelCreateNonFlat.Text + vbCrLf
+        If chCreateNonFlat.Checked Then
+            swApp.RunMacro2(mCreate_NonFlat.RootPath + mCreate_NonFlat.Name, mCreate_NonFlat.Module, mCreate_NonFlat.Procedure, 1, swError)
+            lblDisplayText.Text = lblDisplayText.Text + chCreateNonFlat.Text + vbCrLf
         End If
         If chNonFlatModelItem.Checked Then
-            swApp.RunMacro2(macroRootPath + macroNonFlatModelItem, moduleNonFlatModelItem, procedureNonFlatModelItem, 1, swError)
+            swApp.RunMacro2(mNonFlat_ModelItems.RootPath + mNonFlat_ModelItems.Name, mNonFlat_ModelItems.Module, mNonFlat_ModelItems.Procedure, 1, swError)
             lblDisplayText.Text = lblDisplayText.Text + chNonFlatModelItem.Text + vbCrLf
         End If
         If chNonFlatBOMTable.Checked Then
-            swApp.RunMacro2(macroRootPath + macroNonFlatBOMTable, moduleNonFlatBOMTable, procedureNonFlatBOMTable, 1, swError)
-            swApp.RunMacro2(macroRootPath + macroNonFlatBOMTableFormat, moduleNonFlatBOMTableFormat, procedureNonFlatBOMTableFormat, 1, swError)
+            swApp.RunMacro2(mNonFlat_BOMTable.RootPath + mNonFlat_BOMTable.Name, mNonFlat_BOMTable.Module, mNonFlat_BOMTable.Procedure, 1, swError)
+            swApp.RunMacro2(mNonFlat_BOMTableFormat.RootPath + mNonFlat_BOMTableFormat.Name, mNonFlat_BOMTableFormat.Module, mNonFlat_BOMTableFormat.Procedure, 1, swError)
             lblDisplayText.Text = lblDisplayText.Text + chNonFlatBOMTable.Text + vbCrLf
         End If
         If chNonFlatAutoBalloon.Checked Then
-            swApp.RunMacro2(macroRootPath + macroNonFlatAutoBalloon, moduleNonFlatAutoBalloon, procedureNonFlatAutoBalloon, 1, swError)
+            swApp.RunMacro2(mNonFlat_AutoBalloon.RootPath + mNonFlat_AutoBalloon.Name, mNonFlat_AutoBalloon.Module, mNonFlat_AutoBalloon.Procedure, 1, swError)
             lblDisplayText.Text = lblDisplayText.Text + chNonFlatAutoBalloon.Text + vbCrLf
         End If
         If chNonFlatRevTable.Checked Then
-            swApp.RunMacro2(macroRootPath + macroNonFlatRevTable, moduleNonFlatRevTable, procedureNonFlatRevTable, 1, swError)
-            swApp.RunMacro2(macroRootPath + macroNonFlatRevTableFormat, moduleNonFlatRevTableFormat, procedureNonFlatRevTableFormat, 1, swError)
+            swApp.RunMacro2(mDrw_RevTableUpdate.RootPath + mDrw_RevTableUpdate.Name, mDrw_RevTableUpdate.Module, mDrw_RevTableUpdate.Procedure, 1, swError)
+            swApp.RunMacro2(mDrw_RevTableFormat.RootPath + mDrw_RevTableFormat.Name, mDrw_RevTableFormat.Module, mDrw_RevTableFormat.Procedure, 1, swError)
             lblDisplayText.Text = lblDisplayText.Text + chNonFlatRevTable.Text + vbCrLf
         End If
         If chNonFlatReloadSheetFormat.Checked Then
-            swApp.RunMacro2(macroRootPath + macroNonFlatReloadSheetFormat, moduleNonFlatReloadSheetFormat, procedureNonFlatReloadSheetFormat, 1, swError)
+            swApp.RunMacro2(mDrw_SheetFormat.RootPath + mDrw_SheetFormat.Name, mDrw_SheetFormat.Module, mDrw_SheetFormat.Procedure, 1, swError)
             lblDisplayText.Text = lblDisplayText.Text + chNonFlatReloadSheetFormat.Text + vbCrLf
         End If
         If chNonFlatPDF.Checked Then
-            swApp.RunMacro2(macroRootPath + macroNonFlatPDF, moduleNonFlatPDF, procedureNonFlatPDF, 1, swError)
+            swApp.RunMacro2(mDrw_PDF.RootPath + mDrw_PDF.Name, mDrw_PDF.Module, mDrw_PDF.Procedure, 1, swError)
             lblDisplayText.Text = lblDisplayText.Text + chNonFlatPDF.Text + vbCrLf
         End If
-        If chModelCreateFlat.Checked Then
-            swApp.RunMacro2(macroRootPath + macroModelFlat, moduleModelFlat, procedureModelFlat, 1, swError)
-            lblDisplayText.Text = lblDisplayText.Text + chModelCreateFlat.Text + vbCrLf
+        If chCreateFlat.Checked Then
+            swApp.RunMacro2(mCreate_Flat.RootPath + mCreate_Flat.Name, mCreate_Flat.Module, mCreate_Flat.Procedure, 1, swError)
+            lblDisplayText.Text = lblDisplayText.Text + chCreateFlat.Text + vbCrLf
         End If
         If chFlatPunchTable.Checked Then
-            swApp.RunMacro2(macroRootPath + macroFlatPunchTable, moduleFlatPunchTable, procedureFlatPunchTable, 1, swError)
+            swApp.RunMacro2(mFlat_PunchTable.RootPath + mFlat_PunchTable.Name, mFlat_PunchTable.Module, mFlat_PunchTable.Procedure, 1, swError)
             PunchIDDesc = New PunchIDDesc
             PunchIDDesc.main()
-            swApp.RunMacro2(macroRootPath + macroFlatPunchTableFormat, moduleFlatPunchTableFormat, procedureFlatPunchTableFormat, 1, swError)
+            swApp.RunMacro2(mFlat_PunchTableFormat.RootPath + mFlat_PunchTableFormat.Name, mFlat_PunchTableFormat.Module, mFlat_PunchTableFormat.Procedure, 1, swError)
             lblDisplayText.Text = lblDisplayText.Text + chFlatPunchTable.Text + vbCrLf
         End If
         If chFlatOrdDim.Checked Then
-            swApp.RunMacro2(macroRootPath + macroFlatOrdDim, moduleFlatOrdDim, procedureFlatOrdDim, 1, swError)
+            swApp.RunMacro2(mFlat_OrdinateDims.RootPath + mFlat_OrdinateDims.Name, mFlat_OrdinateDims.Module, mFlat_OrdinateDims.Procedure, 1, swError)
             lblDisplayText.Text = lblDisplayText.Text + chFlatOrdDim.Text + vbCrLf
         End If
         If chFlatRevTable.Checked Then
-            swApp.RunMacro2(macroRootPath + macroFlatRevTable, moduleFlatRevTable, procedureFlatRevTable, 1, swError)
-            swApp.RunMacro2(macroRootPath + macroFlatRevTableFormat, moduleFlatRevTableFormat, procedureFlatRevTableFormat, 1, swError)
+            swApp.RunMacro2(mDrw_RevTableUpdate.RootPath + mDrw_RevTableUpdate.Name, mDrw_RevTableUpdate.Module, mDrw_RevTableUpdate.Procedure, 1, swError)
+            swApp.RunMacro2(mDrw_RevTableFormat.RootPath + mDrw_RevTableFormat.Name, mDrw_RevTableFormat.Module, mDrw_RevTableFormat.Procedure, 1, swError)
             lblDisplayText.Text = lblDisplayText.Text + chFlatRevTable.Text + vbCrLf
         End If
         If chFlatReloadSheetFormat.Checked Then
-            swApp.RunMacro2(macroRootPath + macroFlatReloadSheetFormat, moduleFlatReloadSheetFormat, procedureFlatReloadSheetFormat, 1, swError)
+            swApp.RunMacro2(mDrw_SheetFormat.RootPath + mDrw_SheetFormat.Name, mDrw_SheetFormat.Module, mDrw_SheetFormat.Procedure, 1, swError)
             lblDisplayText.Text = lblDisplayText.Text + chFlatReloadSheetFormat.Text + vbCrLf
         End If
         If chFlatPDF.Checked Then
-            swApp.RunMacro2(macroRootPath + macroFlatPDF, moduleFlatPDF, procedureFlatPDF, 1, swError)
+            swApp.RunMacro2(mDrw_PDF.RootPath + mDrw_PDF.Name, mDrw_PDF.Module, mDrw_PDF.Procedure, 1, swError)
             lblDisplayText.Text = lblDisplayText.Text + chFlatPDF.Text + vbCrLf
         End If
         tbxStatus.Text = "Ready for next command"
     End Sub
 
     Private Sub BehaviorDrawingNonFlat()
-        chModelCreateNonFlat.Checked = False
-        chModelCreateFlat.Checked = False
+        chCreateNonFlat.Checked = False
+        chCreateFlat.Checked = False
 
         chFlatPunchTable.Checked = False
         chFlatOrdDim.Checked = False
@@ -335,8 +267,8 @@ Public Class DrawingToolbox
     End Sub
 
     Private Sub BehaviorDrawingFlat()
-        chModelCreateNonFlat.Checked = False
-        chModelCreateFlat.Checked = False
+        chCreateNonFlat.Checked = False
+        chCreateFlat.Checked = False
 
         chNonFlatModelItem.Checked = False
         chNonFlatBOMTable.Checked = False

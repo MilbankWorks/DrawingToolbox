@@ -23,13 +23,13 @@ Partial Class DrawingToolbox
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.btnRunMacros = New System.Windows.Forms.Button()
-        Me.chModelCreateNonFlat = New System.Windows.Forms.CheckBox()
+        Me.chCreateNonFlat = New System.Windows.Forms.CheckBox()
         Me.chNonFlatModelItem = New System.Windows.Forms.CheckBox()
         Me.chNonFlatBOMTable = New System.Windows.Forms.CheckBox()
         Me.chNonFlatAutoBalloon = New System.Windows.Forms.CheckBox()
         Me.lblDisplayText = New System.Windows.Forms.Label()
         Me.chNonFlatRevTable = New System.Windows.Forms.CheckBox()
-        Me.chModelCreateFlat = New System.Windows.Forms.CheckBox()
+        Me.chCreateFlat = New System.Windows.Forms.CheckBox()
         Me.chFlatPunchTable = New System.Windows.Forms.CheckBox()
         Me.chFlatOrdDim = New System.Windows.Forms.CheckBox()
         Me.chFlatRevTable = New System.Windows.Forms.CheckBox()
@@ -63,15 +63,15 @@ Partial Class DrawingToolbox
         Me.btnRunMacros.Text = "Run Selected Macros"
         Me.btnRunMacros.UseVisualStyleBackColor = True
         '
-        'chModelCreateNonFlat
+        'chCreateNonFlat
         '
-        Me.chModelCreateNonFlat.AutoSize = True
-        Me.chModelCreateNonFlat.Location = New System.Drawing.Point(16, 62)
-        Me.chModelCreateNonFlat.Name = "chModelCreateNonFlat"
-        Me.chModelCreateNonFlat.Size = New System.Drawing.Size(186, 17)
-        Me.chModelCreateNonFlat.TabIndex = 1
-        Me.chModelCreateNonFlat.Text = "Create Formed/Assembly Drawing"
-        Me.chModelCreateNonFlat.UseVisualStyleBackColor = True
+        Me.chCreateNonFlat.AutoSize = True
+        Me.chCreateNonFlat.Location = New System.Drawing.Point(16, 62)
+        Me.chCreateNonFlat.Name = "chCreateNonFlat"
+        Me.chCreateNonFlat.Size = New System.Drawing.Size(186, 17)
+        Me.chCreateNonFlat.TabIndex = 1
+        Me.chCreateNonFlat.Text = "Create Formed/Assembly Drawing"
+        Me.chCreateNonFlat.UseVisualStyleBackColor = True
         '
         'chNonFlatModelItem
         '
@@ -122,15 +122,15 @@ Partial Class DrawingToolbox
         Me.chNonFlatRevTable.Text = "Rev Table"
         Me.chNonFlatRevTable.UseVisualStyleBackColor = True
         '
-        'chModelCreateFlat
+        'chCreateFlat
         '
-        Me.chModelCreateFlat.AutoSize = True
-        Me.chModelCreateFlat.Location = New System.Drawing.Point(16, 85)
-        Me.chModelCreateFlat.Name = "chModelCreateFlat"
-        Me.chModelCreateFlat.Size = New System.Drawing.Size(119, 17)
-        Me.chModelCreateFlat.TabIndex = 7
-        Me.chModelCreateFlat.Text = "Create Flat Drawing"
-        Me.chModelCreateFlat.UseVisualStyleBackColor = True
+        Me.chCreateFlat.AutoSize = True
+        Me.chCreateFlat.Location = New System.Drawing.Point(16, 85)
+        Me.chCreateFlat.Name = "chCreateFlat"
+        Me.chCreateFlat.Size = New System.Drawing.Size(119, 17)
+        Me.chCreateFlat.TabIndex = 7
+        Me.chCreateFlat.Text = "Create Flat Drawing"
+        Me.chCreateFlat.UseVisualStyleBackColor = True
         '
         'chFlatPunchTable
         '
@@ -178,7 +178,7 @@ Partial Class DrawingToolbox
         Me.lblVersionText.Name = "lblVersionText"
         Me.lblVersionText.Size = New System.Drawing.Size(69, 13)
         Me.lblVersionText.TabIndex = 12
-        Me.lblVersionText.Text = "Version 0.9.1"
+        Me.lblVersionText.Text = "Version 0.9.2"
         '
         'lblExplanation1
         '
@@ -296,15 +296,15 @@ Partial Class DrawingToolbox
         Me.btnCheckExists.Name = "btnCheckExists"
         Me.btnCheckExists.Size = New System.Drawing.Size(178, 37)
         Me.btnCheckExists.TabIndex = 19
-        Me.btnCheckExists.Text = "Check If Drawing Exist"
+        Me.btnCheckExists.Text = "Check If Drawing Exists"
         Me.btnCheckExists.UseVisualStyleBackColor = True
         '
         'grbxCreate
         '
         Me.grbxCreate.BackColor = System.Drawing.SystemColors.GradientActiveCaption
         Me.grbxCreate.Controls.Add(Me.btnCheckExists)
-        Me.grbxCreate.Controls.Add(Me.chModelCreateNonFlat)
-        Me.grbxCreate.Controls.Add(Me.chModelCreateFlat)
+        Me.grbxCreate.Controls.Add(Me.chCreateNonFlat)
+        Me.grbxCreate.Controls.Add(Me.chCreateFlat)
         Me.grbxCreate.Location = New System.Drawing.Point(12, 12)
         Me.grbxCreate.Name = "grbxCreate"
         Me.grbxCreate.Size = New System.Drawing.Size(211, 114)
@@ -359,13 +359,13 @@ Partial Class DrawingToolbox
     End Sub
 
     Friend WithEvents btnRunMacros As Button
-    Friend WithEvents chModelCreateNonFlat As CheckBox
+    Friend WithEvents chCreateNonFlat As CheckBox
     Friend WithEvents chNonFlatModelItem As CheckBox
     Friend WithEvents chNonFlatBOMTable As CheckBox
     Friend WithEvents chNonFlatAutoBalloon As CheckBox
     Friend WithEvents lblDisplayText As Label
     Friend WithEvents chNonFlatRevTable As CheckBox
-    Friend WithEvents chModelCreateFlat As CheckBox
+    Friend WithEvents chCreateFlat As CheckBox
     Friend WithEvents chFlatPunchTable As CheckBox
     Friend WithEvents chFlatOrdDim As CheckBox
     Friend WithEvents chFlatRevTable As CheckBox
