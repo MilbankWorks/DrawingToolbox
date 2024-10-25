@@ -41,7 +41,7 @@ Public Class FindPartNo
         End If
 
         If conisioLink <> "Not Found" Then
-            If MsgBox("Found drawing " & FileName & vbCrLf & "at location " & FilePath & vbCrLf & "Do you want to open this drawing?", vbYesNo, "Check Exist Active Config") = vbYes Then
+            If MsgBox("Found drawing " + vbCrLf + vbCrLf + FileName + vbCrLf + vbCrLf + "at location " + vbCrLf + vbCrLf + FilePath + vbCrLf + vbCrLf + "Do you want to open this drawing?", vbYesNo, "Check Exist Active Config") = vbYes Then
                 System.Diagnostics.Process.Start(conisioLink)
             End If
         Else

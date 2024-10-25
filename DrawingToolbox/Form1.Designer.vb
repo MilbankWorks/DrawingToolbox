@@ -49,6 +49,7 @@ Partial Class DrawingToolbox
         Me.grbxCreate = New System.Windows.Forms.GroupBox()
         Me.lblStatus = New System.Windows.Forms.Label()
         Me.tbxStatus = New System.Windows.Forms.TextBox()
+        Me.btnSwitchInstance = New System.Windows.Forms.Button()
         Me.grbxNonFlat.SuspendLayout()
         Me.grbxFlat.SuspendLayout()
         Me.grbxCreate.SuspendLayout()
@@ -106,7 +107,7 @@ Partial Class DrawingToolbox
         'lblDisplayText
         '
         Me.lblDisplayText.AutoSize = True
-        Me.lblDisplayText.Location = New System.Drawing.Point(488, 165)
+        Me.lblDisplayText.Location = New System.Drawing.Point(488, 133)
         Me.lblDisplayText.Name = "lblDisplayText"
         Me.lblDisplayText.Size = New System.Drawing.Size(27, 13)
         Me.lblDisplayText.TabIndex = 5
@@ -165,7 +166,7 @@ Partial Class DrawingToolbox
         'lblProcedureList
         '
         Me.lblProcedureList.AutoSize = True
-        Me.lblProcedureList.Location = New System.Drawing.Point(488, 152)
+        Me.lblProcedureList.Location = New System.Drawing.Point(488, 120)
         Me.lblProcedureList.Name = "lblProcedureList"
         Me.lblProcedureList.Size = New System.Drawing.Size(98, 13)
         Me.lblProcedureList.TabIndex = 11
@@ -178,7 +179,7 @@ Partial Class DrawingToolbox
         Me.lblVersionText.Name = "lblVersionText"
         Me.lblVersionText.Size = New System.Drawing.Size(69, 13)
         Me.lblVersionText.TabIndex = 12
-        Me.lblVersionText.Text = "Version 0.9.2"
+        Me.lblVersionText.Text = "Version 0.9.3"
         '
         'lblExplanation1
         '
@@ -315,7 +316,7 @@ Partial Class DrawingToolbox
         'lblStatus
         '
         Me.lblStatus.AutoSize = True
-        Me.lblStatus.Location = New System.Drawing.Point(488, 91)
+        Me.lblStatus.Location = New System.Drawing.Point(488, 78)
         Me.lblStatus.Name = "lblStatus"
         Me.lblStatus.Size = New System.Drawing.Size(37, 13)
         Me.lblStatus.TabIndex = 24
@@ -323,17 +324,27 @@ Partial Class DrawingToolbox
         '
         'tbxStatus
         '
-        Me.tbxStatus.Location = New System.Drawing.Point(491, 106)
+        Me.tbxStatus.Location = New System.Drawing.Point(491, 94)
         Me.tbxStatus.Name = "tbxStatus"
         Me.tbxStatus.Size = New System.Drawing.Size(158, 20)
         Me.tbxStatus.TabIndex = 25
         Me.tbxStatus.Text = "Ready for next command"
+        '
+        'btnSwitchInstance
+        '
+        Me.btnSwitchInstance.Location = New System.Drawing.Point(491, 275)
+        Me.btnSwitchInstance.Name = "btnSwitchInstance"
+        Me.btnSwitchInstance.Size = New System.Drawing.Size(158, 40)
+        Me.btnSwitchInstance.TabIndex = 26
+        Me.btnSwitchInstance.Text = "Check/Change SW Instance"
+        Me.btnSwitchInstance.UseVisualStyleBackColor = True
         '
         'DrawingToolbox
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(661, 353)
+        Me.Controls.Add(Me.btnSwitchInstance)
         Me.Controls.Add(Me.tbxStatus)
         Me.Controls.Add(Me.lblStatus)
         Me.Controls.Add(Me.grbxCreate)
@@ -385,4 +396,5 @@ Partial Class DrawingToolbox
     Friend WithEvents chFlatPDF As CheckBox
     Friend WithEvents chNonFlatReloadSheetFormat As CheckBox
     Friend WithEvents chFlatReloadSheetFormat As CheckBox
+    Friend WithEvents btnSwitchInstance As Button
 End Class

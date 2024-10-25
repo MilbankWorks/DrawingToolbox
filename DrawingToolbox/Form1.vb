@@ -4,8 +4,8 @@ Imports EPDM.Interop.epdm
 
 Public Class DrawingToolbox
 
-    Public swFactory As Factories.SWFactory
-    Public swApp As SldWorks
+    Public swFactory As Factories.SWFactory = New Factories.SWFactory
+    Public swApp As SldWorks = swFactory.GetSwAppFromExisting()
     Public swVault As New EdmVault5
     Private PunchIDDesc As PunchIDDesc
     Private FindPartNo As FindPartNo
@@ -191,7 +191,7 @@ Public Class DrawingToolbox
         Dim mFlat_PunchTable As New MacroClass(swVault, "Flat_PunchTable.swp", "Flat_PunchTable1")
         Dim mFlat_PunchTableFormat As New MacroClass(swVault, "Flat_PunchTableFormat.swp", "Flat_PunchTableFormat1")
 
-        swFactory = New Factories.SWFactory
+        'swFactory = New Factories.SWFactory
         swApp = swFactory.GetSwAppFromExisting()
 
         If chCreateNonFlat.Checked Then
@@ -276,5 +276,16 @@ Public Class DrawingToolbox
         chNonFlatRevTable.Checked = False
         chNonFlatReloadSheetFormat.Checked = False
         chNonFlatPDF.Checked = False
+    End Sub
+
+    Private Sub btnSwitchInstance_Click(sender As Object, e As EventArgs) Handles btnSwitchInstance.Click
+        If swApp Is Nothing Then swApp = swFactory.GetSwAppFromExisting()
+        If swApp Is Nothing Then Exit Sub
+        Dim boxResult As Integer
+        boxResult = MsgBox("Current SW Instance's active document is " + vbCrLf + vbCrLf + swApp.ActiveDoc.GetPathName().ToString + vbCrLf + vbCrLf + "Do you want to change instance?", vbYesNo + vbQuestion, "Check/Change SW Instance")
+        If boxResult = vbYes Then
+            swApp = swFactory.GetNextSWInstance()
+            MsgBox("Current SW Instance's active document is now " + vbCrLf + vbCrLf + swApp.ActiveDoc.GetPathName().ToString, vbOKOnly, "Check/Change SW Instance")
+        End If
     End Sub
 End Class
