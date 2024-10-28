@@ -10,8 +10,22 @@ Public Class DrawingToolbox
     Private PunchIDDesc As PunchIDDesc
     Private FindPartNo As FindPartNo
     Private swError As Integer
+    Private mCreate_NonFlat As New MacroClass(swVault, "Create_NonFlat.swp", "Create_NonFlat1")
+    Private mCreate_Flat As New MacroClass(swVault, "Create_Flat.swp", "Create_Flat1")
+    Private mDrw_PDF As New MacroClass(swVault, "Drw_PDF.swp", "Drw_PDF1")
+    Private mDrw_RevTableFormat As New MacroClass(swVault, "Drw_RevTableFormat.swp", "Drw_RevTableFormat1")
+    Private mDrw_RevTableUpdate As New MacroClass(swVault, "Drw_RevTableUpdate.swp", "Drw_RevTableUpdate1")
+    Private mDrw_SheetFormat As New MacroClass(swVault, "Drw_SheetFormat.swp", "Drw_SheetFormat1")
+    Private mNonFlat_AutoBalloon As New MacroClass(swVault, "NonFlat_AutoBalloon.swp", "NonFlat_AutoBalloon1")
+    Private mNonFlat_BOMTable As New MacroClass(swVault, "NonFlat_BOMTable.swp", "NonFlat_BOMTable1")
+    Private mNonFlat_BOMTableFormat As New MacroClass(swVault, "NonFlat_BOMTableFormat.swp", "NonFlat_BOMTableFormat1")
+    Private mNonFlat_ModelItems As New MacroClass(swVault, "NonFlat_ModelItems.swp", "NonFlat_ModelItems1")
+    Private mFlat_OrdinateDims As New MacroClass(swVault, "Flat_OrdinateDims.swp", "Flat_OrdinateDims1")
+    Private mFlat_PunchTable As New MacroClass(swVault, "Flat_PunchTable.swp", "Flat_PunchTable1")
+    Private mFlat_PunchTableFormat As New MacroClass(swVault, "Flat_PunchTableFormat.swp", "Flat_PunchTableFormat1")
 
     Private Sub btnSelectAll1_Click(sender As Object, e As EventArgs) Handles btnSelectAll1.Click
+
         If chNonFlatModelItem.Checked = False And chNonFlatBOMTable.Checked = False And chNonFlatAutoBalloon.Checked = False And chNonFlatRevTable.Checked = False And chNonFlatReloadSheetFormat.Checked = False And chNonFlatPDF.Checked = False Then
             'Radio buttons seemingly have a bug. If radio button is checked, and a different checkbox event is set to clear the radio button, checkbox will have to be clicked twice to actually set as True
             'Radio buttons require checkbox.checked = True twice to actually change
@@ -163,6 +177,11 @@ Public Class DrawingToolbox
     Private Sub btnCheckExists_Click(sender As Object, e As EventArgs) Handles btnCheckExists.Click
         tbxStatus.Text = "Running"
         FindPartNo = New FindPartNo
+        swApp = swFactory.GetSwAppFromExisting()
+        If swApp Is Nothing Then
+            tbxStatus.Text = "No SW Instance found"
+            Exit Sub
+        End If
         FindPartNo.FindPN()
         tbxStatus.Text = "Ready for next command"
     End Sub
@@ -172,27 +191,14 @@ Public Class DrawingToolbox
         tbxStatus.Text = "Running"
         lblDisplayText.Text = ""
 
-        'These are now in the MacroClass.vb
-        'Dim macroRootPath As String = "C:\PDM_Milbank\SolidWorks Library\Macros\Drawings\"
-        'Dim macroProcedure As String = "main"
-
         If Not swVault.IsLoggedIn Then swVault.LoginAuto("PDM_Milbank", 0)
-        Dim mCreate_NonFlat As New MacroClass(swVault, "Create_NonFlat.swp", "Create_NonFlat1")
-        Dim mCreate_Flat As New MacroClass(swVault, "Create_Flat.swp", "Create_Flat1")
-        Dim mDrw_PDF As New MacroClass(swVault, "Drw_PDF.swp", "Drw_PDF1")
-        Dim mDrw_RevTableFormat As New MacroClass(swVault, "Drw_RevTableFormat.swp", "Drw_RevTableFormat1")
-        Dim mDrw_RevTableUpdate As New MacroClass(swVault, "Drw_RevTableUpdate.swp", "Drw_RevTableUpdate1")
-        Dim mDrw_SheetFormat As New MacroClass(swVault, "Drw_SheetFormat.swp", "Drw_SheetFormat1")
-        Dim mNonFlat_AutoBalloon As New MacroClass(swVault, "NonFlat_AutoBalloon.swp", "NonFlat_AutoBalloon1")
-        Dim mNonFlat_BOMTable As New MacroClass(swVault, "NonFlat_BOMTable.swp", "NonFlat_BOMTable1")
-        Dim mNonFlat_BOMTableFormat As New MacroClass(swVault, "NonFlat_BOMTableFormat.swp", "NonFlat_BOMTableFormat1")
-        Dim mNonFlat_ModelItems As New MacroClass(swVault, "NonFlat_ModelItems.swp", "NonFlat_ModelItems1")
-        Dim mFlat_OrdinateDims As New MacroClass(swVault, "Flat_OrdinateDims.swp", "Flat_OrdinateDims1")
-        Dim mFlat_PunchTable As New MacroClass(swVault, "Flat_PunchTable.swp", "Flat_PunchTable1")
-        Dim mFlat_PunchTableFormat As New MacroClass(swVault, "Flat_PunchTableFormat.swp", "Flat_PunchTableFormat1")
 
         'swFactory = New Factories.SWFactory
         swApp = swFactory.GetSwAppFromExisting()
+        If swApp Is Nothing Then
+            tbxStatus.Text = "No SW Instance found"
+            Exit Sub
+        End If
 
         If chCreateNonFlat.Checked Then
             swApp.RunMacro2(mCreate_NonFlat.RootPath + mCreate_NonFlat.Name, mCreate_NonFlat.Module, mCreate_NonFlat.Procedure, 1, swError)
@@ -280,8 +286,12 @@ Public Class DrawingToolbox
 
     Private Sub btnSwitchInstance_Click(sender As Object, e As EventArgs) Handles btnSwitchInstance.Click
         If swApp Is Nothing Then swApp = swFactory.GetSwAppFromExisting()
-        If swApp Is Nothing Then Exit Sub
+        If swApp Is Nothing Then
+            tbxStatus.Text = "No SW Instance found"
+            Exit Sub
+        End If
         Dim boxResult As Integer
+        If swApp.ActiveDoc Is Nothing Then Exit Sub
         boxResult = MsgBox("Current SW Instance's active document is " + vbCrLf + vbCrLf + swApp.ActiveDoc.GetPathName().ToString + vbCrLf + vbCrLf + "Do you want to change instance?", vbYesNo + vbQuestion, "Check/Change SW Instance")
         If boxResult = vbYes Then
             swApp = swFactory.GetNextSWInstance()

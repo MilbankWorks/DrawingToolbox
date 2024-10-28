@@ -15,8 +15,9 @@ Public Class FindPartNo
 
         swFactory = New Factories.SWFactory
         swApp = swFactory.GetSwAppFromExisting()
-
+        If swApp Is Nothing Then Exit Function
         ActiveDoc = swApp.ActiveDoc
+        If ActiveDoc Is Nothing Then Exit Function
         If ActiveDoc.GetType <> 1 And ActiveDoc.GetType <> 2 Then 'swDocPart or swDocAssembly
             Exit Function
         End If

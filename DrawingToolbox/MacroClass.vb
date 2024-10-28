@@ -1,7 +1,5 @@
 ﻿Imports EPDM.Interop.epdm
 
-
-
 Public Class MacroClass
     Public Property RootPath As String
     Public Property Name As String
@@ -12,12 +10,15 @@ Public Class MacroClass
     Private swFile As IEdmFile12
     Private swFolder As IEdmFolder10
 
+
     Public Sub New(swVault As EdmVault5, macroName As String, macroModule As String, Optional macroRootPath As String = "C:\PDM_Milbank\SolidWorks Library\Macros\Drawings\", Optional macroProcedure As String = "main")
+        If Not swVault.IsLoggedIn Then swVault.LoginAuto("PDM_Milbank", 0)
         RootPath = macroRootPath
         Name = macroName
         [Module] = macroModule
         Procedure = macroProcedure
 
+        'Get latest of file
         swFile = swVault.GetFileFromPath(RootPath + Name, swFolder)
         If swFile.CurrentVersion <> swFile.GetLocalVersionNo(swFolder.ID) Then
             If Not swFile.IsLocked Then

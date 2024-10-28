@@ -179,7 +179,7 @@ Partial Class DrawingToolbox
         Me.lblVersionText.Name = "lblVersionText"
         Me.lblVersionText.Size = New System.Drawing.Size(69, 13)
         Me.lblVersionText.TabIndex = 12
-        Me.lblVersionText.Text = "Version 0.9.3"
+        Me.lblVersionText.Text = "Version 1.0.0"
         '
         'lblExplanation1
         '
@@ -233,7 +233,7 @@ Partial Class DrawingToolbox
         Me.btnSelectAll1.Name = "btnSelectAll1"
         Me.btnSelectAll1.Size = New System.Drawing.Size(89, 37)
         Me.btnSelectAll1.TabIndex = 23
-        Me.btnSelectAll1.Text = "(De)Select All 1"
+        Me.btnSelectAll1.Text = "(De)Select All"
         Me.btnSelectAll1.UseVisualStyleBackColor = True
         '
         'grbxFlat
@@ -278,7 +278,7 @@ Partial Class DrawingToolbox
         Me.btnSelectAll2.Name = "btnSelectAll2"
         Me.btnSelectAll2.Size = New System.Drawing.Size(89, 40)
         Me.btnSelectAll2.TabIndex = 22
-        Me.btnSelectAll2.Text = "(De)Select All 2"
+        Me.btnSelectAll2.Text = "(De)Select All"
         Me.btnSelectAll2.UseVisualStyleBackColor = True
         '
         'lblExplanation2
@@ -311,7 +311,7 @@ Partial Class DrawingToolbox
         Me.grbxCreate.Size = New System.Drawing.Size(211, 114)
         Me.grbxCreate.TabIndex = 21
         Me.grbxCreate.TabStop = False
-        Me.grbxCreate.Text = "Create Drawing For Active Config"
+        Me.grbxCreate.Text = "Create Drawing For Active Model Config"
         '
         'lblStatus
         '
