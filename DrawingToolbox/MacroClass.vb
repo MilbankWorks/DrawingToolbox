@@ -18,7 +18,7 @@ Public Class MacroClass
         [Module] = macroModule
         Procedure = macroProcedure
 
-        'Get latest of file
+        'Get latest of macros when loading up form
         swFile = swVault.GetFileFromPath(RootPath + Name, swFolder)
         If swFile.CurrentVersion <> swFile.GetLocalVersionNo(swFolder.ID) Then
             If Not swFile.IsLocked Then

@@ -25,6 +25,8 @@ Public Class DrawingToolbox
     Private mFlat_PunchTableFormat As New MacroClass(swVault, "Flat_PunchTableFormat.swp", "Flat_PunchTableFormat1")
 
     Private Sub btnSelectAll1_Click(sender As Object, e As EventArgs) Handles btnSelectAll1.Click
+        'This button checks everything in Flat portion and Create portion to be false
+        'This button toggles everything in NonFlat portion
 
         If chNonFlatModelItem.Checked = False And chNonFlatBOMTable.Checked = False And chNonFlatAutoBalloon.Checked = False And chNonFlatRevTable.Checked = False And chNonFlatReloadSheetFormat.Checked = False And chNonFlatPDF.Checked = False Then
             'Radio buttons seemingly have a bug. If radio button is checked, and a different checkbox event is set to clear the radio button, checkbox will have to be clicked twice to actually set as True
@@ -54,6 +56,8 @@ Public Class DrawingToolbox
     End Sub
 
     Private Sub btnSelectAll2_Click(sender As Object, e As EventArgs) Handles btnSelectAll2.Click
+        'This button checks everything in NonFlat portion and Create portion to be false
+        'This button toggles everything in Flat portion
         If chFlatPunchTable.Checked = False And chFlatOrdDim.Checked = False And chFlatRevTable.Checked = False And chFlatReloadSheetFormat.Checked = False And chFlatPDF.Checked = False Then
             'Radio buttons seemingly have a bug. If radio button is checked, and a different checkbox event is set to clear the radio button, checkbox will have to be clicked twice to actually set as True
             'Radio buttons require checkbox.checked = True twice to actually change
@@ -82,6 +86,7 @@ Public Class DrawingToolbox
     End Sub
 
     Private Sub chModelNonFlat_CheckedChanged(sender As Object, e As EventArgs) Handles chCreateNonFlat.CheckedChanged
+        'This checkbox turns off everything else except itself
         If chCreateNonFlat.Checked Then
             chCreateFlat.Checked = False
 
@@ -100,6 +105,7 @@ Public Class DrawingToolbox
         End If
     End Sub
     Private Sub chModelFlat_CheckedChanged(sender As Object, e As EventArgs) Handles chCreateFlat.CheckedChanged
+        'This checkbox turns off everything else except itself
         If chCreateFlat.Checked Then
             chCreateNonFlat.Checked = False
 
@@ -182,7 +188,7 @@ Public Class DrawingToolbox
             tbxStatus.Text = "No SW Instance found"
             Exit Sub
         End If
-        FindPartNo.FindPN()
+        FindPartNo.FindPN() 'Check if there's a drawing with name matching the PN of active model configuration
         tbxStatus.Text = "Ready for next command"
     End Sub
 
@@ -200,6 +206,7 @@ Public Class DrawingToolbox
             Exit Sub
         End If
 
+        'This button runs through all the macros in a specific order as long as the prerequisite checkboxes are active
         If chCreateNonFlat.Checked Then
             swApp.RunMacro2(mCreate_NonFlat.RootPath + mCreate_NonFlat.Name, mCreate_NonFlat.Module, mCreate_NonFlat.Procedure, 1, swError)
             lblDisplayText.Text = lblDisplayText.Text + chCreateNonFlat.Text + vbCrLf
@@ -262,6 +269,7 @@ Public Class DrawingToolbox
     End Sub
 
     Private Sub BehaviorDrawingNonFlat()
+        'This behavior set turns off all flat checkboxes and any create checkboxes
         chCreateNonFlat.Checked = False
         chCreateFlat.Checked = False
 
@@ -273,6 +281,7 @@ Public Class DrawingToolbox
     End Sub
 
     Private Sub BehaviorDrawingFlat()
+        'This behavior set turns off all nonflat checkboxes and any create checkboxes
         chCreateNonFlat.Checked = False
         chCreateFlat.Checked = False
 
@@ -285,6 +294,7 @@ Public Class DrawingToolbox
     End Sub
 
     Private Sub btnSwitchInstance_Click(sender As Object, e As EventArgs) Handles btnSwitchInstance.Click
+        'This buttons check for active document of the associated SOLIDWORKS instance to help determine which instance is in use, then provide user a chance to change to another instance if exists
         If swApp Is Nothing Then swApp = swFactory.GetSwAppFromExisting()
         If swApp Is Nothing Then
             tbxStatus.Text = "No SW Instance found"

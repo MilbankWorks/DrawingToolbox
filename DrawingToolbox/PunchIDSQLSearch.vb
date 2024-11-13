@@ -23,6 +23,7 @@ Public Class PunchIDSQLSearch
         conn = New System.Data.SqlClient.SqlConnection(connectionString)
         cmd = conn.CreateCommand
         'cmd.CommandText = $"exec ENG_Reporting.dbo.PDM_Design_Library"
+        'Run SQL search and store into myList0-2
         cmd.CommandText = $"SELECT * FROM ENG_Reporting.dbo.DesignLibraryPunchID ORDER BY UniqueDesc Desc"
         conn.Open()
         reader = cmd.ExecuteReader()
@@ -52,6 +53,7 @@ Public Class PunchIDSQLSearch
         Outcome = False
         Dim OutputString As String
         OutputString = ""
+        'Search for PunchID and corresponding Description in myList0-2
         For Each PunchID In myList0
             'Console.WriteLine(InputString & " | " & PunchID & " | " & myList2(myList0.IndexOf(PunchID)) & " | " & InputString.Equals(PunchID))
             If InputString.Equals(PunchID) And myList2(myList0.IndexOf(PunchID)) = 1 Then

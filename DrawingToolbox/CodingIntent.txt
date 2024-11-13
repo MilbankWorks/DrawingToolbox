@@ -1,0 +1,11 @@
+﻿Problem: Old CreateDrawingTool was made to be 1-click solution to generate basic drawings as part of mass drawing generation initiative. It eventually got turned into a Drawing assistant application.
+Due to the 1-click nature, it was not possible to run individual steps. Due to the 1-click nature, its Update Drawing functionality involved wiping the drawing and starting again, eliminating any and all manual edits done by users.
+This wass problematic for flat pattern drawings as ordinate dimensions were often tweaked by users, and Punch Table was due for a custom enhancement to show Description of PunchID, which would require wiping edits to update drawing.
+Steps were all stored within CreateDrawingTool. This made development more difficult and required Visual Studio for any edits, especially if coder didn't know Visual Studio or the language used in CreateDrawingTool, which was the case.
+
+
+Solution: DrawingToolbox was made to be the replacement Drawing assistant application. It was set up to be a platform that can run individual steps separately, requiring more clicks on users as the cost.
+Individual steps were made into VBA macros stored in PDM_Milbank, and editing a step no longer needed DrawingToolbox to be updated, just the VBA macro. This lowered the barrier of entry for maintaining and developing codes.
+This also opened up the possibility of wrong attribution of error if a VBA macro was edited badly and not DrawingToolbox, end users would still attribute the problem to DrawingToolbox.
+
+While SQL searches could be done in VBA, those were decided to be kept inside DrawingToolbox still for security reasons.

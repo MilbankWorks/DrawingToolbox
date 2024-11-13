@@ -10,7 +10,7 @@ Public Class PunchIDDesc
     Public Sub main()
 
         swFactory = New Factories.SWFactory
-        swApp = swFactory.GetSwAppFromExisting()
+        swApp = swFactory.GetSwAppFromExisting() 'Get SOLIDWORKS application
 
         Dim ActiveDoc As ModelDoc2
         Dim DrawingDoc As DrawingDoc
@@ -24,13 +24,13 @@ Public Class PunchIDDesc
 
         DrawingDoc = ActiveDoc
 
-        PunchIDSQLSearch.BuildTable()
+        PunchIDSQLSearch.BuildTable() 'Run SQL to build up and store PunchID : Desc table
 
         DrawingDoc.ActivateSheet(DrawingDoc.GetSheetNames(0))
         swView = DrawingDoc.GetFirstView()
         Do While Not swView Is Nothing
             tableAnn = swView.GetFirstTableAnnotation
-            Do While Not tableAnn Is Nothing
+            Do While Not tableAnn Is Nothing 'Find Punch Table on first drawing page
                 If tableAnn.Title = "Punch Table" Then
                     punchTableAnn = tableAnn
                     Exit Do
@@ -40,7 +40,7 @@ Public Class PunchIDDesc
             swView = swView.GetNextView
         Loop
 
-        If punchTableAnn Is Nothing Then
+        If punchTableAnn Is Nothing Then 'If  Punch Table DNE, don't do anything else
             Exit Sub
         End If
 

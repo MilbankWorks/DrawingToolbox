@@ -15,6 +15,7 @@ Public Class DocSQLSearch
     Protected cmd As SqlCommand
 
     Public Function QuickerTableLookup(InputString)
+        'Generate default values for results
         Dim conisioLink As String = "Not Found"
         Dim FileNameExt As String = "Not Found"
         Dim FilePath As String = "Not Found"
@@ -27,6 +28,7 @@ Public Class DocSQLSearch
         conn = New System.Data.SqlClient.SqlConnection(connectionString)
         cmd = conn.CreateCommand
 
+        'This query searches for the 1st drawing that has the name matches the PartNo InputString of the active model configuration
         Dim DocSQLSearchQuery As String
         DocSQLSearchQuery = "--This is the DrawingToolbox script to check for existing drawing
             SELECT TOP 1 DOC.DocumentID
@@ -34,7 +36,7 @@ Public Class DocSQLSearch
             ,PRJ.ProjectID
             ,CONCAT('C:\PDM_Milbank',PRJ.[Path]) [FullPath]
             --,CONCAT('conisio://PDM_Milbank/open?projectid=',PRJ.ProjectID,'&documentid=',DOC.DocumentID,'&objecttype=1') [DocLink]
-            From PDM_Milbank.dbo.Documents DOC
+            FROM PDM_Milbank.dbo.Documents DOC
             INNER JOIN(SELECT DocumentID, ProjectID FROM PDM_Milbank.dbo.DocumentsInProjects) DIP ON DOC.DocumentID = DIP.DocumentID
             INNER JOIN(SELECT ProjectID, [Path] FROM PDM_Milbank.dbo.Projects) PRJ ON DIP.ProjectID = PRJ.ProjectID
             WHERE ObjectTypeID = 1
@@ -54,12 +56,14 @@ Public Class DocSQLSearch
         reader.Close()
         conn.Close()
 
+        'If search result isn't empty, generate conisio link to quickly open the drawing and overwrite default values with search result
         If docID.Count <> 0 Then
             conisioLink = "conisio://PDM_Milbank/open?projectid=" & projID(0) & "&documentID=" & docID(0) & "&objecttype=1"
             FileNameExt = docName(0)
             FilePath = projPath(0)
         End If
 
+        'Return results
         Dim output = New String() {conisioLink, FileNameExt, FilePath}
         Return output
 
